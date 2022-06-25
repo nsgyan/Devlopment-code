@@ -1,0 +1,393 @@
+<button onclick="window.print()" class="printBtn">Click Here To Print</button>
+<div class="main-content">
+  <table>
+    <thead>
+      <tr>
+        <td>
+          <div class="header-space">&nbsp;</div>
+        </td>
+      </tr>
+    </thead>
+    <div class="quoteHeader">
+      <div class="quoteHeading">
+        <h3 class="borderRight">QUOTATION</h3>
+      </div>
+      <div class="quoteCon">
+        <div class="tableLeftRight bb">
+          <div class="left">
+            <h6 class="tableData br">Customer Name:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.companyData?.company_name}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="left br">
+            <h6 class="tableData">Customer Address:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.companyData?.address1}}
+              {{this.companyData?.address2}} {{this.companyData?.address3}} {{this.companyData?.country}}
+              {{this.companyData?.zip_code}}
+            </h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="left">
+            <h6 class="tableData br">Buyer Name:</h6>
+          </div>
+          <div class="br">
+            <h6 class="tableData BuyerName">{{this.contactData?.contact_name}}</h6>
+          </div>
+          <div class="">
+            <h6 class="tableData br">Contact No:</h6>
+          </div>
+          <div class="">
+            <h6 class="tableData">{{this.contactData?.mobile_no}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight">
+          <div class="left">
+            <h6 class="tableData br">Application / Project:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.quoteData?.quote_title}}</h6>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="quoteCon">
+        <div class="tableLeftRight bb">
+          <div class="left">
+            <h6 class="tableData br">Customer Name:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.companyData?.company_name}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="left">
+            <h6 class="tableData br">Customer Address:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.companyData?.address1}}
+              {{this.companyData?.address2}} {{this.companyData?.address3}} {{this.companyData?.country}}
+              {{this.companyData?.zip_code}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="left">
+            <h6 class="tableData br">Buyer Name:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData br">{{this.contactData?.contact_name}}</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData br">Contact No:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.contactData?.mobile_no}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="left">
+            <h6 class="tableData br">Application / Project:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.quoteData?.deal_title}}</h6>
+          </div>
+        </div>
+      </div> -->
+      <table class="table caption-top">
+        <thead >
+          <tr class="borderTopBottom">
+            <th class="br" scope="col" style="width:1%;">SN</th>
+            <th class="br" scope="col" style="width:40%;">Product Description</th>
+            <th class="br textcenter" scope="col" style="width:13%;">GST %</th>
+            <th class="br textcenter" scope="col" style="width:5%;">Qty</th>
+            <th class="br textcenter" scope="col" style="width:5%;">UOM</th>
+            <th class="br textcenter" scope="col" style="width:10%;">Unit Rate</th>
+            <th class="br textcenter" scope="col" style="width:7%;">Disc</th>
+            <th class="br textcenter" scope="col" style="width:25%;">Net Unit Rate</th>
+            <th class="amount textcenter" scope="col" style="width:10%;">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="bb firstB" *ngFor="let prod of this.quoteData?.product_services,index as i">
+            <th class="br" scope="row">{{i+1}}</th>
+            <td class="br"><span class="fBold">{{prod.productname}}</span>
+              <p>Part No: {{prod.PartNo}}</p>
+              <p>HSN Code: {{prod.HSNCode}}</p>
+            </td>
+            <td class="br textcenter">{{prod.GST.split(";").join("\n")}}</td>
+            <td class="br textcenter">{{prod.quantity}}</td>
+            <td class="br textcenter">{{(prod.UOM)}}</td>
+            <td class="br textRight">{{prod.UnitPrice | number : '1.2'}}</td>
+            <td class="br textcenter">{{(prod.discount)}}%</td>
+            <td class="br textRight">
+              {{this.decimalFormat(prod.type!='Group'?(prod.UnitPrice*(1-(prod.discount/100))):prod.amount)}}</td>
+            <td class="textRight">{{this.decimalFormat(prod.amount)}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" scope="row"></th>
+            <td class="br textRight"><span class="fBold">Total</span>
+            </td>
+            <td class="br"></td>
+            <td class="br textcenter"><strong>{{this.quantity }}</strong></td>
+            <td class="br"></td>
+            <td class="br"></td>
+            <td class="br"></td>
+            <td class="br"></td>
+            <td><strong>{{this.totalAmount | number : '1.2'}}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="totalAmtTx text-right">
+        <ul>
+          <li><strong>Total Taxable Amount: {{this.totalAmount | number : '1.2'}}</strong></li>
+          <li><strong>GST Taxes: {{getTaxableAmount() | number : '1.2'}}</strong></li>
+          <li><strong>Total Amount: {{this.totalAmount+getTaxableAmount() | number : '1.2'}}</strong></li>
+        </ul>
+      </div>
+      <table class="table caption-top">
+        <thead class="bb">
+          <tr>
+            <th class="terms-condition text-center" colspan="3" style="font-size:1rem; font-weight: 700;text-transform:uppercase; ">Terms & Conditions</th>
+          </tr>
+        </thead>
+        <tbody class="padding">
+          <tr class="bb">
+            <th class="br" style="width:5%">1</th>
+            <td class="br tabletext" style="width:20%">INCO Terms</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.inco_terms}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">2</th>
+            <td class="br tabletext" style="width:20%">Payment Terms</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.p_t}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">3</th>
+            <td class="br tabletext" style="width:20%">P&F</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.p_f}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">4</th>
+            <td class="br tabletext" style="width:20%">Freight</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.freight}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">5</th>
+            <td class="br tabletext" style="width:20%">Other Charges</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.other_charges}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">6</th>
+            <td class="br tabletext" style="width:20%">Delivery Period</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.delivery}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">7</th>
+            <td class="br tabletext" style="width:20%">Warranty</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.warranty}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">8</th>
+            <td class="br tabletext" style="width:20%">Quote Validity (days)</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.deal_validity}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">9</th>
+            <td class="br tabletext" style="width:20%">Not Valid After</td>
+            <td class="tabletext" style="width:75%">{{this.validDate}}</td>
+          </tr>
+          <tr class="bb">
+            <th class="br" style="width:5%">10</th>
+            <td class="br tabletext" style="width:20%">Other Remarks</td>
+            <td class="tabletext" style="width:75%">{{this.quoteData?.remark}}</td>
+          </tr>
+
+        </tbody>
+      </table>
+      <!-- <div class="quoteHeading bb bt">
+        <h3>Terms & Conditions</h3>
+      </div>
+      <div class="quoteCon">
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>1</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">INCO Terms:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.quoteData?.inco_terms}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>2</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">
+              Payment Terms:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">
+              {{this.quoteData?.p_t}}
+            </h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>3</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">
+              P&F:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">
+              {{this.quoteData?.p_f}}
+            </h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>4</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">Freight:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">
+              {{this.quoteData?.freight}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>5</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">Other Charges:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">
+              {{this.quoteData?.other_charges}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>6</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">Delivery Period:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">{{this.quoteData?.delivery}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>7</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">Warranty:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">
+              {{this.quoteData?.warranty}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>8</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">Quote Validity (days)</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">
+              {{this.quoteData?.deal_validity}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>9</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">Not Valid After:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">
+              {{this.validDate}}</h6>
+          </div>
+        </div>
+        <div class="tableLeftRight bb">
+          <div class="No br">
+            <h6>10</h6>
+          </div>
+          <div class="left">
+            <h6 class="tableData br">Other Remarks:</h6>
+          </div>
+          <div class="right">
+            <h6 class="tableData">
+              {{this.quoteData?.remark}}</h6>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <tfoot>
+      <tr>
+        <td>
+          <div class="footer-space">&nbsp;</div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  <header class="TopHeader">
+    <div class="header">
+      <div class="ph1">
+        <div><img src="assets/img/DIYA.PNG" /></div>
+        <div class="headerLeft">
+          <ul>
+            <li>Bill From: {{this.branchData?.branch_name}}</li>
+            <li>Address: {{this.branchData?.address1}}
+              {{this.branchData?.address2}} {{this.branchData?.address3}} {{this.branchData?.state}}
+              {{this.branchData?.country}} {{this.branchData?.zipcode}}
+            </li>
+            <li>E-Mail: info@diyatechnologies.co.in</li>
+            <li>GSTN: {{this.branchData?.branch_gst}}</li>
+            <li>Website: www.diyatechnologies.in</li>
+            <li></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hc"></div>
+      <div class="ph2">
+        <div class="headerRight">
+          <ul>
+            <li class="">Reference No: {{this.quoteData?.deal_id}}</li>
+            <li class="">Date: {{this.quoteData?.created_date_time |date:'dd-MM-yyyy'}}</li>
+          </ul>
+        </div>
+        <div class="headerRightBottom">
+          <h2 class="">Contact person for this Offer:</h2>
+          <ul class="">
+            <li>Name: {{this.salesPersonData?.username}}</li>
+            <li>E-Mail: {{this.salesPersonData?.email}}</li>
+            <li >Mobile No: {{this.salesPersonData?.phone}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+  <footer class="footer">
+    <h2 class=" footerText">Authorized Dealers:</h2>
+    <div class="footerImg">
+      <img src="assets/img/IR.PNG">
+      <img src="assets/img/URYU.PNG">
+      <img src="assets/img/TOH.PNG">
+    </div>
+  </footer>
+
+</div>
