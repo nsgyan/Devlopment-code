@@ -14,22 +14,19 @@ import * as html2pdf from 'html2pdf.js'
   styleUrls: ['./print-table.component.css'],
 })
 export class PrintTableComponent implements OnInit {
-
-
-  download(){
+  download() {
     var element = document.getElementById('body');
-var opt = {
-  margin:      0,
-  filename:     'output.pdf',
-  image:        { type: 'jpeg', quality: 0.98 },
-  html2canvas:  { scale: 2 },
-  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-};
- 
-// New Promise-based usage:
-html2pdf().from(element).set(opt).save();
-  }
+    var opt = {
+      margin: 0,
+      filename: 'output.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+    };
 
+    // New Promise-based usage:
+    html2pdf().from(element).set(opt).save();
+  }
 
   quote_id: any;
   quoteData: any;
@@ -45,6 +42,9 @@ html2pdf().from(element).set(opt).save();
   totalAmount1: any = 0;
   totalGST: any = 0;
 
+  groupView: Boolean = false;
+  grouw: Boolean = true;
+
   constructor(
     private _Activatedroute: ActivatedRoute,
     private account: AccountService,
@@ -59,9 +59,13 @@ html2pdf().from(element).set(opt).save();
     this.titleService.setTitle('omshakti');
   }
 
+  showGroup(a:Boolean) {
+    this.groupView = a;
+    this.grouw=!a;
+  }
+
   ngOnInit(): void {
     this.quote_id = this._Activatedroute.snapshot.paramMap.get('id');
-    // console.log(this._Activatedroute.snapshot.paramMap.get("id"))
     let qtdate = new Date();
     this.quoteDate = qtdate.toLocaleString('en-IN', {
       day: 'numeric',
@@ -72,7 +76,7 @@ html2pdf().from(element).set(opt).save();
     this.quote
       .getQuoteById(this._Activatedroute.snapshot.paramMap.get('id'))
       .subscribe((data: any) => {
-        // console.log(data.result[0])
+        console.log(data.result[0]);
         this.quoteData = data.result[0];
         let date = this.addDays(
           data.result[0].created_date_time,
@@ -176,6 +180,8 @@ html2pdf().from(element).set(opt).save();
   }
   taxableAmount: any;
   data: any;
+
+  AddRow(arr: any) {}
 
   getTaxableAmount() {
     let data = this.quoteData.product_services;

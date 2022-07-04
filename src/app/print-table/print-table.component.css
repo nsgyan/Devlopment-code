@@ -18,7 +18,7 @@ table {
 } */
 /* .header {
     display: flex;
-    
+
 } */
 .header .ph1 .headerLeft ul,
 .header .ph2 .headerRight ul,
@@ -230,6 +230,16 @@ table {
   padding: 10px;
   border-radius: 5px;
   left: 169px;
+  border: none;
+  background-color: #ed565b;
+  color: #fff;
+}
+.printBtn1 {
+  position: fixed;
+  bottom: 0;
+  padding: 10px;
+  border-radius: 5px;
+  left: 19px;
   border: none;
   background-color: #ed565b;
   color: #fff;
